@@ -1,0 +1,8 @@
+C:\Users\user\Documents\GitHub\Programm-eng-Project\services\survey-service\SurveyService\obj\Debug\net8.0\SurveyService.csproj.AssemblyReference.cache
+C:\Users\user\Documents\GitHub\Programm-eng-Project\services\survey-service\SurveyService\obj\Debug\net8.0\SurveyService.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Documents\GitHub\Programm-eng-Project\services\survey-service\SurveyService\obj\Debug\net8.0\SurveyService.AssemblyInfoInputs.cache
+C:\Users\user\Documents\GitHub\Programm-eng-Project\services\survey-service\SurveyService\obj\Debug\net8.0\SurveyService.AssemblyInfo.cs
+C:\Users\user\Documents\GitHub\Programm-eng-Project\services\survey-service\SurveyService\obj\Debug\net8.0\SurveyService.csproj.CoreCompileInputs.cache
+C:\Users\user\Documents\GitHub\Programm-eng-Project\services\survey-service\SurveyService\obj\Debug\net8.0\SurveyService.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\user\Documents\GitHub\Programm-eng-Project\services\survey-service\SurveyService\obj\Debug\net8.0\SurveyService.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\user\Documents\GitHub\Programm-eng-Project\services\survey-service\SurveyService\obj\Debug\net8.0\SurveyService.sourcelink.json

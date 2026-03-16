@@ -63,5 +63,5 @@ public class Survey
     public List<Question> Questions { get; set; } = new();
 
     //ID создателя опроса
-    public int? CreatedBy { get; set; }; //может быть null, значит польователь-создатель скрыл себя
+    public int? CreatedBy { get; set; } //может быть null, значит польователь-создатель скрыл себя
 }
