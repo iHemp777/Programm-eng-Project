@@ -1,0 +1,50 @@
+services:
+  db:
+    image: postgres:18-alpine
+    container_name: surveyservice-db
+    environment:
+      POSTGRES_DB: survey_service_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - surveyservice_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d survey_service_dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  api:
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    container_name: surveyservice-api
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Default: Host=db;Port=5432;Database=survey_service_dev;Username=postgres;Password=postgres
+    working_dir: /src
+    volumes:
+      - ./:/src
+    command: ["dotnet", "run", "--urls", "http://0.0.0.0:8080"]
+    ports:
+      - "5186:8080"
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: surveyservice-pgadmin
+    depends_on:
+      - db
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@local.dev
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    volumes:
+      - surveyservice_pgadmin_data:/var/lib/pgadmin
+
+volumes:
+  surveyservice_db_data:
+  surveyservice_pgadmin_data:
