@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\user\\Documents\\GitHub\\Programm-eng-Project\\services\\survey-service\\SurveyService\\SurveyService.csproj": {}
+    "c:\\Users\\user\\Documents\\GitHub\\Programm-eng-Project\\services\\survey-service\\SurveyService\\SurveyService.csproj": {}
   },
   "projects": {
-    "C:\\Users\\user\\Documents\\GitHub\\Programm-eng-Project\\services\\survey-service\\SurveyService\\SurveyService.csproj": {
+    "c:\\Users\\user\\Documents\\GitHub\\Programm-eng-Project\\services\\survey-service\\SurveyService\\SurveyService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\Documents\\GitHub\\Programm-eng-Project\\services\\survey-service\\SurveyService\\SurveyService.csproj",
+        "projectUniqueName": "c:\\Users\\user\\Documents\\GitHub\\Programm-eng-Project\\services\\survey-service\\SurveyService\\SurveyService.csproj",
         "projectName": "SurveyService",
-        "projectPath": "C:\\Users\\user\\Documents\\GitHub\\Programm-eng-Project\\services\\survey-service\\SurveyService\\SurveyService.csproj",
+        "projectPath": "c:\\Users\\user\\Documents\\GitHub\\Programm-eng-Project\\services\\survey-service\\SurveyService\\SurveyService.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\Documents\\GitHub\\Programm-eng-Project\\services\\survey-service\\SurveyService\\obj\\",
+        "outputPath": "c:\\Users\\user\\Documents\\GitHub\\Programm-eng-Project\\services\\survey-service\\SurveyService\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
