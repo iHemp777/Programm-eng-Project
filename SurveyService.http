@@ -1,0 +1,268 @@
+@SurveyService_HostAddress = http://localhost:5186
+@PublicSurveyId = 1
+@PrivateSurveyId = 2
+@PrivateSurveyToken = REPLACE_ME_WITH_INVITETOKEN
+
+################################################################################
+# Справка по enum значениям (как сейчас в коде)
+# AccessType:
+#   0 = Public
+#   1 = PrivateByLink
+#
+# Status:
+#   0 = Draft
+#   1 = Published
+#   2 = Closed
+#   3 = Archived
+################################################################################
+
+################################################################################
+# LISTS / FILTERS
+################################################################################
+
+GET {{SurveyService_HostAddress}}/api/surveys/public
+Accept: application/json
+
+###
+
+GET {{SurveyService_HostAddress}}/api/surveys/public?activeOnly=true
+Accept: application/json
+
+###
+
+GET {{SurveyService_HostAddress}}/api/surveys/public?activeOnly=false&status=0
+Accept: application/json
+
+###
+
+GET {{SurveyService_HostAddress}}/api/surveys/public?activeOnly=false&status=1
+Accept: application/json
+
+###
+
+GET {{SurveyService_HostAddress}}/api/surveys
+Accept: application/json
+
+###
+
+GET {{SurveyService_HostAddress}}/api/surveys/stats
+Accept: application/json
+
+###
+
+################################################################################
+# CREATE: public survey (published) + questions/options
+################################################################################
+
+POST {{SurveyService_HostAddress}}/api/surveys
+Content-Type: application/json
+
+{
+  "title": "Demo survey",
+  "description": "Public, published survey",
+  "accessType": 0,
+  "isAnonymous": false,
+  "status": 1,
+  "createdBy": 0,
+  "startsAt": null,
+  "endsAt": null,
+  "questions": [
+    {
+      "text": "What is your favorite color?",
+      "order": 1,
+      "isRequired": true,
+      "options": [
+        { "text": "Red", "order": 1 },
+        { "text": "Blue", "order": 2 }
+      ]
+    }
+  ]
+}
+
+###
+
+################################################################################
+# CREATE: private-by-link survey (draft) — IMPORTANT: copy InviteToken from response
+################################################################################
+
+POST {{SurveyService_HostAddress}}/api/surveys
+Content-Type: application/json
+
+{
+  "title": "Private survey",
+  "description": "Private-by-link, draft",
+  "accessType": 1,
+  "isAnonymous": true,
+  "status": 0,
+  "createdBy": 123,
+  "startsAt": null,
+  "endsAt": null,
+  "questions": []
+}
+
+###
+
+################################################################################
+# GET by ID (detailed). Works for any survey, но для приватного лучше token-endpoint.
+################################################################################
+
+GET {{SurveyService_HostAddress}}/api/surveys/{{PublicSurveyId}}
+Accept: application/json
+
+###
+
+################################################################################
+# GET private-by-link by token (detailed)
+################################################################################
+
+GET {{SurveyService_HostAddress}}/api/surveys/private/{{PrivateSurveyToken}}
+Accept: application/json
+
+###
+
+################################################################################
+# TIME WINDOWS
+# - StartsAt in future => не должен появиться в /public
+# - EndsAt in past => не должен появиться в /public
+################################################################################
+
+POST {{SurveyService_HostAddress}}/api/surveys
+Content-Type: application/json
+
+{
+  "title": "Starts in the future (should be hidden from public list for now)",
+  "description": "Public + Published, but StartsAt is in the future",
+  "accessType": 0,
+  "isAnonymous": false,
+  "status": 1,
+  "createdBy": 0,
+  "startsAt": "2099-01-01T00:00:00Z",
+  "endsAt": null,
+  "questions": []
+}
+
+###
+
+POST {{SurveyService_HostAddress}}/api/surveys
+Content-Type: application/json
+
+{
+  "title": "Already ended (should be hidden from public list)",
+  "description": "Public + Published, but EndsAt is in the past",
+  "accessType": 0,
+  "isAnonymous": false,
+  "status": 1,
+  "createdBy": 0,
+  "startsAt": null,
+  "endsAt": "2000-01-01T00:00:00Z",
+  "questions": []
+}
+
+###
+
+GET {{SurveyService_HostAddress}}/api/surveys/public?activeOnly=false&status=1
+Accept: application/json
+
+###
+
+################################################################################
+# UPDATE: publish/close/archive + convert to private-by-link
+# (PUT requires full UpdateSurveyRequest)
+################################################################################
+
+PUT {{SurveyService_HostAddress}}/api/surveys/{{PublicSurveyId}}
+Content-Type: application/json
+
+{
+  "id": {{PublicSurveyId}},
+  "title": "Demo survey (updated)",
+  "description": "Updated metadata",
+  "isActive": true,
+  "accessType": 0,
+  "isAnonymous": false,
+  "status": 1,
+  "startsAt": null,
+  "endsAt": null,
+  "completedAt": null
+}
+
+###
+
+PUT {{SurveyService_HostAddress}}/api/surveys/{{PublicSurveyId}}
+Content-Type: application/json
+
+{
+  "id": {{PublicSurveyId}},
+  "title": "Demo survey (closed)",
+  "description": "Closing survey; server will set CompletedAt if not provided",
+  "isActive": true,
+  "accessType": 0,
+  "isAnonymous": false,
+  "status": 2,
+  "startsAt": null,
+  "endsAt": null,
+  "completedAt": null
+}
+
+###
+
+PUT {{SurveyService_HostAddress}}/api/surveys/{{PublicSurveyId}}
+Content-Type: application/json
+
+{
+  "id": {{PublicSurveyId}},
+  "title": "Demo survey (archived)",
+  "description": "Archived survey",
+  "isActive": true,
+  "accessType": 0,
+  "isAnonymous": false,
+  "status": 3,
+  "startsAt": null,
+  "endsAt": null,
+  "completedAt": null
+}
+
+###
+
+PUT {{SurveyService_HostAddress}}/api/surveys/{{PublicSurveyId}}
+Content-Type: application/json
+
+{
+  "id": {{PublicSurveyId}},
+  "title": "Demo survey (made private-by-link)",
+  "description": "Converted to private-by-link; server generates InviteToken if missing",
+  "isActive": true,
+  "accessType": 1,
+  "isAnonymous": true,
+  "status": 1,
+  "startsAt": null,
+  "endsAt": null,
+  "completedAt": null
+}
+
+###
+
+################################################################################
+# PATCH: IsActive toggle
+################################################################################
+
+PATCH {{SurveyService_HostAddress}}/api/surveys/{{PublicSurveyId}}/status
+Content-Type: application/json
+
+false
+
+###
+
+PATCH {{SurveyService_HostAddress}}/api/surveys/{{PublicSurveyId}}/status
+Content-Type: application/json
+
+true
+
+###
+
+################################################################################
+# DELETE: hard-delete
+################################################################################
+
+DELETE {{SurveyService_HostAddress}}/api/surveys/{{PublicSurveyId}}
+Accept: application/json
