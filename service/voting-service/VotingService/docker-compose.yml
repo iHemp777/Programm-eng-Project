@@ -1,0 +1,46 @@
+services:
+  db:
+    image: postgres:18-alpine
+    container_name: votingservice-db
+    environment:
+      POSTGRES_DB: voting_service_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5434:5432"
+    volumes:
+      - votingservice_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d voting_service_dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    container_name: votingservice-redis
+    ports:
+      - "6379:6379"
+
+  api:
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    container_name: votingservice-api
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Default: Host=db;Port=5432;Database=voting_service_dev;Username=postgres;Password=postgres
+      ConnectionStrings__Redis: redis:6379
+      Services__SurveyService__BaseUrl: http://host.docker.internal:5186
+    working_dir: /src
+    volumes:
+      - ./:/src
+    command: ["dotnet", "run", "--urls", "http://0.0.0.0:8080"]
+    ports:
+      - "5002:8080"
+
+volumes:
+  votingservice_db_data:

@@ -1,0 +1,31 @@
+@VotingService_HostAddress = http://localhost:5002
+
+POST {{VotingService_HostAddress}}/api/votes
+Content-Type: application/json
+
+{
+  "surveyId": 1,
+  "voterId": 1001,
+  "answers": [
+    {
+      "questionId": 1,
+      "optionId": 2
+    },
+    {
+      "questionId": 2,
+      "optionId": 5
+    }
+  ]
+}
+
+###
+
+GET {{VotingService_HostAddress}}/api/votes/surveys/1/results
+Accept: application/json
+
+###
+
+GET {{VotingService_HostAddress}}/api/votes/surveys/1/has-voted?voterId=1001
+Accept: application/json
+
+###
