@@ -42,7 +42,7 @@ public sealed class CreateSurveyRequest
     /// <summary>
     /// Набор вопросов, которые создаются вместе с опросом.
     ///
-    /// Если список пустой — опрос создастся без вопросов (можно добавить позже, если появится соответствующий API).
+    /// Если список пустой — опрос создастся без вопросов.
     /// </summary>
     public List<CreateQuestionRequest> Questions { get; set; } = new();
 }
