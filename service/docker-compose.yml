@@ -1,0 +1,81 @@
+services:
+  survey-db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: survey_service_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - surveyservice_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d survey_service_dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  survey-api:
+    build:
+      context: ./servey-service/ServeyService
+      dockerfile: Dockerfile
+    depends_on:
+      survey-db:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Default: Host=survey-db;Port=5432;Database=survey_service_dev;Username=postgres;Password=postgres
+    ports:
+      - "5001:8080"
+
+  voting-db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: voting_service_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - votingservice_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d voting_service_dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+
+  voting-api:
+    build:
+      context: ./voting-service/VotingService
+      dockerfile: Dockerfile
+    depends_on:
+      voting-db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      survey-api:
+        condition: service_started
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Default: Host=voting-db;Port=5432;Database=voting_service_dev;Username=postgres;Password=postgres
+      ConnectionStrings__Redis: redis:6379
+      Services__SurveyService__BaseUrl: http://survey-api:8080
+    ports:
+      - "5002:8080"
+
+  api-gateway:
+    build:
+      context: ./api-gateway/ApiGateway
+      dockerfile: Dockerfile
+    depends_on:
+      survey-api:
+        condition: service_started
+      voting-api:
+        condition: service_started
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    ports:
+      - "5000:8080"
+
+volumes:
+  surveyservice_db_data:
+  votingservice_db_data:

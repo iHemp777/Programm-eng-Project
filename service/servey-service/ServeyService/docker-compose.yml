@@ -1,7 +1,6 @@
 services:
   db:
-    image: postgres:18-alpine
-    container_name: surveyservice-db
+    image: postgres:17-alpine
     environment:
       POSTGRES_DB: survey_service_dev
       POSTGRES_USER: postgres
@@ -17,24 +16,20 @@ services:
       retries: 20
 
   api:
-    image: mcr.microsoft.com/dotnet/sdk:8.0
-    container_name: surveyservice-api
+    build:
+      context: .
+      dockerfile: Dockerfile
     depends_on:
       db:
         condition: service_healthy
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ConnectionStrings__Default: Host=db;Port=5432;Database=survey_service_dev;Username=postgres;Password=postgres
-    working_dir: /src
-    volumes:
-      - ./:/src
-    command: ["dotnet", "run", "--urls", "http://0.0.0.0:8080"]
     ports:
       - "5186:8080"
 
   pgadmin:
     image: dpage/pgadmin4:latest
-    container_name: surveyservice-pgadmin
     depends_on:
       - db
     environment:
