@@ -35,3 +35,5 @@ app.MapGet("/swagger", () => Results.Content("""
 app.MapReverseProxy();
 
 app.Run();
+
+public partial class Program;

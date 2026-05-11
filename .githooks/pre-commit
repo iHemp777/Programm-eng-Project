@@ -1,0 +1,10 @@
+#!/bin/sh
+# Minimal shared hook: verify .NET projects still compile before commit.
+set -e
+ROOT="$(git rev-parse --show-toplevel)"
+dotnet build "$ROOT/service/api-gateway/ApiGateway/ApiGateway.csproj" -v minimal
+dotnet build "$ROOT/service/servey-service/ServeyService/SurveyService.csproj" -v minimal
+dotnet build "$ROOT/service/voting-service/VotingService/VotingService.csproj" -v minimal
+dotnet build "$ROOT/service/SurveyService.Tests/SurveyService.Tests.csproj" -v minimal
+dotnet build "$ROOT/service/VotingService.Tests/VotingService.Tests.csproj" -v minimal
+dotnet build "$ROOT/service/ApiGateway.Tests/ApiGateway.Tests.csproj" -v minimal

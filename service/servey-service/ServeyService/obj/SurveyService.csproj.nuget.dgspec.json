@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/src/SurveyService.csproj": {}
+    "c:\\Users\\user\\Documents\\GitHub\\Programm-eng-Project\\service\\servey-service\\ServeyService\\SurveyService.csproj": {}
   },
   "projects": {
-    "/src/SurveyService.csproj": {
+    "c:\\Users\\user\\Documents\\GitHub\\Programm-eng-Project\\service\\servey-service\\ServeyService\\SurveyService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/src/SurveyService.csproj",
+        "projectUniqueName": "c:\\Users\\user\\Documents\\GitHub\\Programm-eng-Project\\service\\servey-service\\ServeyService\\SurveyService.csproj",
         "projectName": "SurveyService",
-        "projectPath": "/src/SurveyService.csproj",
-        "packagesPath": "/root/.nuget/packages/",
-        "outputPath": "/src/obj/",
+        "projectPath": "c:\\Users\\user\\Documents\\GitHub\\Programm-eng-Project\\service\\servey-service\\ServeyService\\SurveyService.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "c:\\Users\\user\\Documents\\GitHub\\Programm-eng-Project\\service\\servey-service\\ServeyService\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/root/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -91,7 +93,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.419/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.416/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
