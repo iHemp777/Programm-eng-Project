@@ -30,6 +30,8 @@ public sealed class CreateSurveyRequest
 
     public DateTime? EndsAt { get; set; }
 
+    public bool EnablePredictions { get; set; } = false;
+
     /// <summary>
     /// ID создателя опроса.
     ///
@@ -79,6 +81,8 @@ public sealed class UpdateSurveyRequest
     public DateTime? EndsAt { get; set; }
 
     public DateTime? CompletedAt { get; set; }
+
+    public bool EnablePredictions { get; set; } = false;
 }
 
 /// <summary>
@@ -129,5 +133,41 @@ public sealed class SurveySummaryResponse
     public DateTime? StartsAt { get; set; }
     public DateTime? EndsAt { get; set; }
     public DateTime? CompletedAt { get; set; }
+}
+
+public sealed class CreateSurveyPredictionRequest
+{
+    [Range(1, int.MaxValue)]
+    public int UserId { get; set; }
+
+    [MinLength(1)]
+    public List<CreateSurveyPredictionAnswerRequest> Answers { get; set; } = new();
+}
+
+public sealed class CreateSurveyPredictionAnswerRequest
+{
+    [Range(1, int.MaxValue)]
+    public int QuestionId { get; set; }
+
+    [Range(1, int.MaxValue)]
+    public int OptionId { get; set; }
+}
+
+public sealed class SurveyPredictionResponse
+{
+    public int Id { get; set; }
+    public int SurveyId { get; set; }
+    public int UserId { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public bool IsScored { get; set; }
+    public int Score { get; set; }
+    public DateTime? ScoredAt { get; set; }
+    public List<SurveyPredictionAnswerResponse> Answers { get; set; } = new();
+}
+
+public sealed class SurveyPredictionAnswerResponse
+{
+    public int QuestionId { get; set; }
+    public int OptionId { get; set; }
 }
 

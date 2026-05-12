@@ -5,6 +5,7 @@ using SurveyService.Controllers;
 using SurveyService.Data;
 using SurveyService.DTOs;
 using SurveyService.Models;
+using SurveyService.Services;
 using Xunit;
 
 namespace SurveyService.Tests;
@@ -145,5 +146,11 @@ public class SurveysControllerTests
     }
 
     private static SurveysController CreateController(AppDbContext db)
-        => new(db, NullLogger<SurveysController>.Instance);
+        => new(db, NullLogger<SurveysController>.Instance, new FakePredictionScoringService());
+
+    private sealed class FakePredictionScoringService : IPredictionScoringService
+    {
+        public Task<int> ScoreSurveyPredictionsAsync(int surveyId, CancellationToken cancellationToken)
+            => Task.FromResult(0);
+    }
 }

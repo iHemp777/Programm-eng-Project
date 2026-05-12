@@ -172,4 +172,11 @@ public class Survey
     /// - >0 — ID пользователя-создателя
     /// </summary>
     public int CreatedBy { get; set; } = 0;
+
+    /// <summary>
+    /// Разрешены ли прогнозы лидеров по вопросам для этого опроса.
+    ///
+    /// Если false — эндпоинты прогнозов должны отклонять создание прогнозов.
+    /// </summary>
+    public bool EnablePredictions { get; set; } = false;
 }

@@ -1,11 +1,23 @@
 {
   "Version": 1,
-  "Hash": "EcwxpF1T7ebjemELnDhiBFvpm9EyVzF1IpXvpqJc+mc=",
+  "Hash": "TnlR6P3IkylwNUQpPr6rHVqU/669kmcC+e/gvw41k8s=",
   "Source": "SurveyService",
   "BasePath": "_content/SurveyService",
   "Mode": "Default",
   "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "c:\\Users\\user\\Documents\\GitHub\\Programm-eng-Project\\service\\voting-service\\VotingService\\VotingService.csproj",
+      "Version": 2,
+      "Source": "VotingService",
+      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework"
+    }
+  ],
   "DiscoveryPatterns": [],
   "Assets": []
 }
