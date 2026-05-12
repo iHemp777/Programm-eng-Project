@@ -40,6 +40,14 @@ public class AppDbContext : DbContext
     /// </summary>
     public DbSet<Option> Options { get; set; }
 
+    public DbSet<SurveyPrediction> SurveyPredictions { get; set; }
+
+    public DbSet<SurveyPredictionAnswer> SurveyPredictionAnswers { get; set; }
+
+    public DbSet<UserScore> UserScores { get; set; }
+
+    public DbSet<UserProfile> UserProfiles { get; set; }
+
     /// <summary>
     /// Настройка модели EF (таблицы/связи/индексы/дефолты).
     /// Вызывается EF автоматически при инициализации модели.
@@ -145,5 +153,29 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Survey>()
             .Property(s => s.InviteToken)
             .IsRequired(false);
+
+        modelBuilder.Entity<SurveyPrediction>()
+            .HasMany(p => p.Answers)
+            .WithOne(a => a.Prediction)
+            .HasForeignKey(a => a.PredictionId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<SurveyPrediction>()
+            .HasIndex(p => new { p.SurveyId, p.UserId })
+            .IsUnique()
+            .HasDatabaseName("UX_SurveyPredictions_SurveyId_UserId");
+
+        modelBuilder.Entity<SurveyPredictionAnswer>()
+            .HasIndex(a => new { a.PredictionId, a.QuestionId })
+            .IsUnique()
+            .HasDatabaseName("UX_SurveyPredictionAnswers_PredictionId_QuestionId");
+
+        modelBuilder.Entity<UserScore>()
+            .Property(u => u.UserId)
+            .ValueGeneratedNever();
+
+        modelBuilder.Entity<UserProfile>()
+            .Property(u => u.UserId)
+            .ValueGeneratedNever();
     }
 }

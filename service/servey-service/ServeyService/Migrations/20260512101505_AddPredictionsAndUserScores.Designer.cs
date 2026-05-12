@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SurveyService.Data;
@@ -11,9 +12,11 @@ using SurveyService.Data;
 namespace SurveyService.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260512101505_AddPredictionsAndUserScores")]
+    partial class AddPredictionsAndUserScores
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,9 +109,6 @@ namespace SurveyService.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
-
-                    b.Property<bool>("EnablePredictions")
-                        .HasColumnType("boolean");
 
                     b.Property<DateTime?>("EndsAt")
                         .HasColumnType("timestamp with time zone");
@@ -235,28 +235,6 @@ namespace SurveyService.Migrations
                         .HasDatabaseName("UX_SurveyPredictionAnswers_PredictionId_QuestionId");
 
                     b.ToTable("SurveyPredictionAnswers");
-                });
-
-            modelBuilder.Entity("SurveyService.Models.UserProfile", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("AvatarUrl")
-                        .HasMaxLength(512)
-                        .HasColumnType("character varying(512)");
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("UserProfiles");
                 });
 
             modelBuilder.Entity("SurveyService.Models.UserScore", b =>

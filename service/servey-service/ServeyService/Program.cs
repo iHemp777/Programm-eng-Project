@@ -26,6 +26,15 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
 
+builder.Services.AddHttpClient<SurveyService.Services.IVotingResultsClient, SurveyService.Services.VotingResultsClient>(client =>
+{
+    var baseUrl = builder.Configuration["Services:VotingService:BaseUrl"]
+        ?? "http://localhost:5002";
+    client.BaseAddress = new Uri(baseUrl);
+});
+
+builder.Services.AddScoped<SurveyService.Services.IPredictionScoringService, SurveyService.Services.PredictionScoringService>();
+
 var app = builder.Build();
 
 // Применяем миграции при старте (удобно для Docker/CI и локального запуска).
